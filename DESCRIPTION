@@ -1,0 +1,13 @@
+Package: shmutils
+Title: Utility Functions to Look for Somatic Hypermutation 
+Version: 0.0.0.9000
+Authors@R: person("Fong Chun", "Chan", email = "fongchunchan@gmail.com", role = c("aut", "cre"))
+Description: This package provides some utility to functions look for somatic 
+	hypermutation (SHM) patterns in human genomes.
+Depends: R (>= 3.1.2)
+License: MIT
+LazyData: true
+Imports:
+	Biostrings (>= 2.34.1)
+Suggests:
+  BSgenome.Hsapiens.UCSC.hg19 (>= 1.4.0)
