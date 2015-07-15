@@ -7,13 +7,14 @@
 #'        needs to be a id column in the metadata. So that the motifs can be 
 #'        associated with the original GenomicRange.
 #' @param BS.genome This a Biostring-based genome object. (BSgenome from
-#'        Bioconductor). For instance, BSgenome.Hsapiens.UCSC.hg19 can be used.
+#'        Bioconductor). For instance, library("BSgenome.Hsapiens.UCSC.hg19") 
+#'        can be used.
 #' @return An IRanges object with the relatives coordinates of the motifs in 
 #'         each GenomicRange.
 #' @export
 get_shm_motifs <- function(gr, bs.genome) {
 
-  if (!"id" %in% colnames(mcols(gr))) {
+  if (!"id" %in% colnames(S4Vectors::mcols(gr))) {
     stop("No id column in the metadata columns of gr. This column is need to 
          map the original GenomicRanges to the motifs")
   }
@@ -35,8 +36,8 @@ get_shm_motifs <- function(gr, bs.genome) {
   gr.neg.strand.window.seq <- Biostrings::getSeq(bs.genome, gr.neg.strand)
 
   # assign names so that we can map the matches back to gene names
-  names(gr.pos.strand.window.seq) <- mcols(gr.pos.strand)[, "id"]
-  names(gr.neg.strand.window.seq) <- mcols(gr.neg.strand)[, "id"]
+  names(gr.pos.strand.window.seq) <- S4Vectors::mcols(gr.pos.strand)[, "id"]
+  names(gr.neg.strand.window.seq) <- S4Vectors::mcols(gr.neg.strand)[, "id"]
 
   message("Searching for SHM Motifs")
   # fixed = FALSE makes it so that it allow for IUPAC motif search to work
@@ -51,7 +52,7 @@ get_shm_motifs <- function(gr, bs.genome) {
   RGYW.motif.gr.vmatch <- unlist(RGYW.motif.gr.vmatch)
   WRCY.motif.gr.vmatch <- unlist(WRCY.motif.gr.vmatch)
 
-  motif.gr.vmatch <- union(RGYW.motif.gr.vmatch, WRCY.motif.gr.vmatch)
+  motif.gr.vmatch <- c(RGYW.motif.gr.vmatch, WRCY.motif.gr.vmatch)
 
   motif.gr.vmatch
 }
