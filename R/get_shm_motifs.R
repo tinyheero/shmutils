@@ -49,8 +49,8 @@ get_shm_motifs <- function(gr, bs.genome) {
                                                     gr.neg.strand.window.seq, 
                                                     fixed = FALSE)
 
-  RGYW.motif.gr.vmatch <- unlist(RGYW.motif.gr.vmatch)
-  WRCY.motif.gr.vmatch <- unlist(WRCY.motif.gr.vmatch)
+  RGYW.motif.gr.vmatch <- BiocGenerics::unlist(RGYW.motif.gr.vmatch)
+  WRCY.motif.gr.vmatch <- BiocGenerics::unlist(WRCY.motif.gr.vmatch)
 
   motif.gr.vmatch <- c(RGYW.motif.gr.vmatch, WRCY.motif.gr.vmatch)
 

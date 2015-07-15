@@ -9,6 +9,8 @@ License: MIT
 LazyData: true
 Imports:
 	Biostrings (>= 2.34.1),
-	GenomicRanges (>= 1.18.4)
+	GenomicRanges (>= 1.18.4),
+	BiocGenerics (>= 0.12.1),
+	S4Vectors (>= 0.4.0)
 Suggests:
   BSgenome.Hsapiens.UCSC.hg19 (>= 1.4.0)
