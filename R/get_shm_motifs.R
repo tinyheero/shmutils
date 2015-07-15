@@ -3,9 +3,8 @@
 #' Reports the location of the SHM motifs within the GenomicRange (gr) object.
 #" The coordinates are relative to the start position in the gr object.
 #' 
-#' @param gr GenomicRanges object. The strand must be specified. Also there 
-#'        needs to be a id column in the metadata. So that the motifs can be 
-#'        associated with the original GenomicRange.
+#' @param gr GenomicRanges object. There needs to be a id column in the metadata. 
+#'        So that the motifs can be  associated with the original GenomicRange.
 #' @param BS.genome This a Biostring-based genome object. (BSgenome from
 #'        Bioconductor). For instance, library("BSgenome.Hsapiens.UCSC.hg19") 
 #'        can be used.
@@ -19,40 +18,31 @@ get_shm_motifs <- function(gr, bs.genome) {
          map the original GenomicRanges to the motifs")
   }
 
-  # Defining the Motifs
-  # They are strand-specific
-  RGYW.motif <- Biostrings::DNAString("RGYW")  # for + strand genes
-  WRCY.motif <- Biostrings::DNAString("WRCY")  # for - strand genes
+  # Defining the SHM Motifs
+  RGYW.motif <- Biostrings::DNAString("RGYW")  
+  WRCY.motif <- Biostrings::DNAString("WRCY") 
 
-  gr.pos.strand <- gr[BiocGenerics::strand(gr) == "+", ]
-  gr.neg.strand <- gr[BiocGenerics::strand(gr) == "-", ]
-
-  if (length(gr.pos.strand) == 0 && length(gr.neg.strand)) {
-    stop("No GenomicRanges with positive or negative strands.")
-  }
-
-  message("Retrieving Sequences of the GRanges Object")
-  gr.pos.strand.window.seq <- Biostrings::getSeq(bs.genome, gr.pos.strand)
-  gr.neg.strand.window.seq <- Biostrings::getSeq(bs.genome, gr.neg.strand)
-
+    message("Retrieving Sequences of the GRanges Object")
+   gr.window.seq <- Biostrings::getSeq(bs.genome, gr)
+# 
   # assign names so that we can map the matches back to gene names
-  names(gr.pos.strand.window.seq) <- S4Vectors::mcols(gr.pos.strand)[, "id"]
-  names(gr.neg.strand.window.seq) <- S4Vectors::mcols(gr.neg.strand)[, "id"]
+  names(gr.window.seq) <- S4Vectors::mcols(gr)[, "id"]
 
   message("Searching for SHM Motifs")
   # fixed = FALSE makes it so that it allow for IUPAC motif search to work
   RGYW.motif.gr.vmatch <- Biostrings::vmatchPattern(RGYW.motif, 
-                                                    gr.pos.strand.window.seq, 
+                                                    gr.window.seq, 
                                                     fixed = FALSE)
 
   WRCY.motif.gr.vmatch <- Biostrings::vmatchPattern(WRCY.motif, 
-                                                    gr.neg.strand.window.seq, 
+                                                    gr.window.seq, 
                                                     fixed = FALSE)
 
   RGYW.motif.gr.vmatch <- BiocGenerics::unlist(RGYW.motif.gr.vmatch)
   WRCY.motif.gr.vmatch <- BiocGenerics::unlist(WRCY.motif.gr.vmatch)
 
-  motif.gr.vmatch <- c(RGYW.motif.gr.vmatch, WRCY.motif.gr.vmatch)
+  motif.gr.vmatch <- list("RGYW" = RGYW.motif.gr.vmatch, 
+                          "WRCY" = WRCY.motif.gr.vmatch)
 
   motif.gr.vmatch
 }

@@ -7,12 +7,12 @@
 get_shm_motifs(gr, bs.genome)
 }
 \arguments{
-\item{gr}{GenomicRanges object. The strand must be specified. Also there
-needs to be a id column in the metadata. So that the motifs can be
-associated with the original GenomicRange.}
+\item{gr}{GenomicRanges object. There needs to be a id column in the metadata.
+So that the motifs can be  associated with the original GenomicRange.}
 
 \item{BS.genome}{This a Biostring-based genome object. (BSgenome from
-Bioconductor). For instance, BSgenome.Hsapiens.UCSC.hg19 can be used.}
+Bioconductor). For instance, library("BSgenome.Hsapiens.UCSC.hg19")
+can be used.}
 }
 \value{
 An IRanges object with the relatives coordinates of the motifs in
