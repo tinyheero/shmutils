@@ -8,6 +8,7 @@ Depends: R (>= 3.1.2)
 License: MIT
 LazyData: true
 Imports:
-	Biostrings (>= 2.34.1)
+	Biostrings (>= 2.34.1),
+	GenomicRanges (>= 1.18.4)
 Suggests:
   BSgenome.Hsapiens.UCSC.hg19 (>= 1.4.0)
