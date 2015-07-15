@@ -31,7 +31,7 @@ get_shm_motifs <- function(gr, bs.genome) {
     stop("No GenomicRanges with positive or negative strands.")
   }
 
-  message("Retrieving GenomicRanges sequences")
+  message("Retrieving Sequences of the GRanges Object")
   gr.pos.strand.window.seq <- Biostrings::getSeq(bs.genome, gr.pos.strand)
   gr.neg.strand.window.seq <- Biostrings::getSeq(bs.genome, gr.neg.strand)
 
