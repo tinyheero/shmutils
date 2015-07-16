@@ -15,8 +15,9 @@ Bioconductor). For instance, library("BSgenome.Hsapiens.UCSC.hg19")
 can be used.}
 }
 \value{
-An IRanges object with the relatives coordinates of the motifs in
-        each GenomicRange.
+A list of IRanges objects with the names being RGYW and WRCY.
+        Each value is an IRanges object containing the relatives
+        coordinates of the motifs with respect to the original GenomicRange.
 }
 \description{
 Reports the location of the SHM motifs within the GenomicRange (gr) object.

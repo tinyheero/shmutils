@@ -8,8 +8,9 @@
 #' @param BS.genome This a Biostring-based genome object. (BSgenome from
 #'        Bioconductor). For instance, library("BSgenome.Hsapiens.UCSC.hg19") 
 #'        can be used.
-#' @return An IRanges object with the relatives coordinates of the motifs in 
-#'         each GenomicRange.
+#' @return A list of IRanges objects with the names being RGYW and WRCY. 
+#'         Each value is an IRanges object containing the relatives 
+#'         coordinates of the motifs with respect to the original GenomicRange.
 #' @export
 get_shm_motifs <- function(gr, bs.genome) {
 
@@ -22,9 +23,9 @@ get_shm_motifs <- function(gr, bs.genome) {
   RGYW.motif <- Biostrings::DNAString("RGYW")  
   WRCY.motif <- Biostrings::DNAString("WRCY") 
 
-    message("Retrieving Sequences of the GRanges Object")
-   gr.window.seq <- Biostrings::getSeq(bs.genome, gr)
-# 
+  message("Retrieving Sequences of the GRanges Object")
+  gr.window.seq <- Biostrings::getSeq(bs.genome, gr)
+
   # assign names so that we can map the matches back to gene names
   names(gr.window.seq) <- S4Vectors::mcols(gr)[, "id"]
 
@@ -37,7 +38,7 @@ get_shm_motifs <- function(gr, bs.genome) {
   WRCY.motif.gr.vmatch <- Biostrings::vmatchPattern(WRCY.motif, 
                                                     gr.window.seq, 
                                                     fixed = FALSE)
-
+  
   RGYW.motif.gr.vmatch <- BiocGenerics::unlist(RGYW.motif.gr.vmatch)
   WRCY.motif.gr.vmatch <- BiocGenerics::unlist(WRCY.motif.gr.vmatch)
 
